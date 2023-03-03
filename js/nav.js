@@ -11,6 +11,7 @@ function navAllStories(evt) {
   evt.preventDefault();
   hidePageComponents();
   putStoriesOnPage();
+  $favoritesList.hide();
 }
 
 $body.on("click", "#nav-all", navAllStories);

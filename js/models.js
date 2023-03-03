@@ -221,7 +221,7 @@ class User {
         data: { token: currentUser.loginToken },
       });
 
-      currentUser.favorites = response.data.user.favorites;
+      currentUser.favorites.push(story);
     } catch (err) {
       console.error("favorite failed", err);
       return null;

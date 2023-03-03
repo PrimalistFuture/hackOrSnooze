@@ -87,6 +87,7 @@ function putFavoritesOnPage() {
 
   for (let favorite of currentFavorites) {
     console.log('favorite,', favorite);
+    console.log("Is this favorite an instance of Story?", favorite instanceof Story);
     const $favorite = generateStoryMarkup(favorite);
     $favoritesList.append($favorite);
   }
@@ -98,10 +99,17 @@ async function handleFavoriteClick(evt) {
   console.log("handleFavoriteClick ran")
   console.log("storyList,", storyList)
   const favoritedId = $(evt.target).closest('li').attr('id');
+  $(evt.target).hide();
+
+  $(evt.target).closest("li").children("#unfavorite-icon").show();
+
+
 
   for (const story of storyList.stories) {
     if (story.storyId === favoritedId) {
       await currentUser.addFavorite(story);
     }
   }
+
 }
+
