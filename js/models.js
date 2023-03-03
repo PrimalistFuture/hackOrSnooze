@@ -93,7 +93,8 @@ class StoryList {
     const { storyId, title, author, username, url, createdAt } = response.data.story;
     console.log('storyId=', storyId);
 
-    this.stories.unshift(newStory);
+    this.stories.unshift(new Story({storyId, title, author, username, url, createdAt}));
+
 
     return new Story({ storyId, title, author, username, url, createdAt });
   }
