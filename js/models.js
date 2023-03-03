@@ -221,9 +221,28 @@ class User {
         data: { token: currentUser.loginToken },
       });
 
-      return response.data.user.favorites //returns favorites array
+      favoritesList = response.data.user.favorites;
+
+      return response.data.user.favorites; //returns favorites array
     } catch (err) {
       console.error("favorite failed", err);
+      return null;
+    }
+  }
+
+
+  async deleteFavorite(story) {
+    try {
+      const response = await axios({
+        url: `${BASE_URL}/users/${currentUser.username}/favorites/${story.storyId}`,
+        method: "DELETE",
+        data: { token: currentUser.loginToken },
+      });
+
+      return response;
+
+    } catch (err) {
+      console.error("deleteFavorite failed,", err);
       return null;
     }
   }

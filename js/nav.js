@@ -46,3 +46,12 @@ function navSubmitClick(evt) {
 }
 
 $navSubmit.on("click", navSubmitClick);
+
+
+function navFavoritesClick(evt) {
+  console.log("nav favorites was clicked");
+  hidePageComponents();
+  $favoritesList.show();
+}
+
+$navFavorite.on("click", navFavoritesClick);

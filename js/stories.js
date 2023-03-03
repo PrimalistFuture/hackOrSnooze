@@ -2,6 +2,7 @@
 
 // This is the global list of the stories, an instance of StoryList
 let storyList;
+let favoritesList;
 
 /** Get and show stories when site first loads. */
 
@@ -77,3 +78,12 @@ async function handleStorySubmission(evt) {
 }
 
 $('#story-form').on('submit', handleStorySubmission);
+
+function putFavoritesOnPage() {
+  $favoritesList.empty();
+
+  for (let favorite of favoritesList) {
+    const $favorite = generateStoryMarkup(favorite);
+    $favoritesList.append($favorite);
+  }
+}
