@@ -213,7 +213,7 @@ class User {
   }
 
   async addFavorite(story) {
-    console.log('current user,', currentUser);
+    console.log('addFavorite ran');
     try {
       const response = await axios({
         url: `${BASE_URL}/users/${currentUser.username}/favorites/${story.storyId}`,
@@ -221,9 +221,7 @@ class User {
         data: { token: currentUser.loginToken },
       });
 
-      favoritesList = response.data.user.favorites;
-
-      return response.data.user.favorites; //returns favorites array
+      currentUser.favorites = response.data.user.favorites;
     } catch (err) {
       console.error("favorite failed", err);
       return null;

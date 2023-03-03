@@ -2,7 +2,6 @@
 
 // This is the global list of the stories, an instance of StoryList
 let storyList;
-let favoritesList;
 
 /** Get and show stories when site first loads. */
 
@@ -24,9 +23,12 @@ function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
+
   return $(`
       <li id="${story.storyId}">
-        <a href="${story.url}" target="a_blank" class="story-link">
+      <i id="favorite-icon" class="bi bi-star"></i>
+      <i id="unfavorite-icon" class="bi bi-star-fill" style="display: none"></i>
+      <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
         <small class="story-hostname">(${hostName})</small>
@@ -80,10 +82,26 @@ async function handleStorySubmission(evt) {
 $('#story-form').on('submit', handleStorySubmission);
 
 function putFavoritesOnPage() {
+  const currentFavorites = currentUser.favorites;
   $favoritesList.empty();
 
-  for (let favorite of favoritesList) {
+  for (let favorite of currentFavorites) {
+    console.log('favorite,', favorite);
     const $favorite = generateStoryMarkup(favorite);
     $favoritesList.append($favorite);
+  }
+}
+
+$body.on("click", "#favorite-icon", handleFavoriteClick)
+
+async function handleFavoriteClick(evt) {
+  console.log("handleFavoriteClick ran")
+  console.log("storyList,", storyList)
+  const favoritedId = $(evt.target).closest('li').attr('id');
+
+  for (const story of storyList.stories) {
+    if (story.storyId === favoritedId) {
+      await currentUser.addFavorite(story);
+    }
   }
 }
