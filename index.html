@@ -42,6 +42,25 @@
   </div>
 </nav>
 
+<!--Story form-->
+<form id="story-form" class="story-form hidden">
+  <div class="story-input">
+    <label for="author-input">Author</label>
+    <input id="author-input" type="text" placeholder="author name" >
+  </div>
+  <div class="story-input">
+    <label for="title-input">Title</label>
+    <input id="title-input" type="text" placeholder="title">
+  </div>
+  <div class="story-input">
+    <label for="url-input">URL</label>
+    <input type="text" name="" id="url-input" placeholder="story url">
+  </div>
+  <div class="story-input">
+    <input type="submit" id="story-submit">
+  </div>
+</form>
+
 <!-- area for stories (all stories, user stories, favorites) -->
 <section class="stories-container container">
 
@@ -91,16 +110,6 @@
 </section>
 
 
-<form id="story-form" class="story-form">
-
-<label for="author-input">Author</label>
-<input id="author-input" type="text" placeholder="author name" >
-<label for="title-input">Title</label>
-<input id="title-input" type="text" placeholder="title" >
-<label for="url-input">URL</label>
-<input type="text" name="" id="url-input" placeholder="story url">
-
-</form>
 
 <!-- Library JS & our JS -->
 <script src="https://unpkg.com/jquery"></script>

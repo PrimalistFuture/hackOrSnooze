@@ -74,7 +74,8 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
-    // UNIMPLEMENTED: complete this function!
+    console.log('i ran when submitted story');
+    console.log(newStory);
     const response = await axios({
       url: `${BASE_URL}/stories`,
       method: "POST",
