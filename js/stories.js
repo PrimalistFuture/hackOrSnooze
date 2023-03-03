@@ -51,19 +51,24 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
-/** handleStorySubmission */
+/** gathers info from submission form, calls addStory, adds info to storyList,
+ * generatesStoryMarkup and finally prepends the story to the allStoriesList
+ * element
+  */
+
 
 async function handleStorySubmission(evt) {
   evt.preventDefault();
 
-  const authorInput = $('#author-input').val();
-  const titleInput = $('#title-input').val();
-  const urlInput = $('#url-input').val();
+  const author = $('#author-input').val();
+  const title = $('#title-input').val();
+  const url = $('#url-input').val();
 
 
-  const newStory = await storyList.addStory(currentUser, {author: authorInput, title: titleInput, url: urlInput});
+  const newStory = await storyList.addStory(currentUser,
+    { author, title, url });
 
-  storyList.stories.unshift(newStory);
+
 
   const newStoryMarkup = generateStoryMarkup(newStory);
 

@@ -38,7 +38,7 @@ function updateNavOnLogin() {
 }
 
 
-/** navSubmit */
+/** On click, opens the submission form */
 function navSubmitClick(evt) {
   console.log("we clicked submit");
   evt.preventDefault();

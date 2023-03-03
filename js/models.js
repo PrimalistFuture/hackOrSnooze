@@ -21,11 +21,12 @@ class Story {
     this.createdAt = createdAt;
   }
 
-  /** Parses hostname out of URL and returns it. */
+  /** TODO: Parses hostname out of URL and returns it. */
 
   getHostName() {
     // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    const url = new URL(this.url);
+    return url.hostname;
   }
 }
 
@@ -79,15 +80,22 @@ class StoryList {
     const response = await axios({
       url: `${BASE_URL}/stories`,
       method: "POST",
-      data:  {token: user.loginToken, story: {title: newStory.title,
-           author: newStory.author, url: newStory.url}}
+      data: {
+        token: user.loginToken,
+        story: {
+          title: newStory.title,
+          author: newStory.author, url: newStory.url
+        }
+      }
     });
-    console.log('response,', response)
+    console.log('response,', response);
 
-  const {storyId, title, author, username, url, createdAt} = response.data.story;
-  console.log('storyId=', storyId);
+    const { storyId, title, author, username, url, createdAt } = response.data.story;
+    console.log('storyId=', storyId);
 
-  return new Story({storyId, title, author, username, url, createdAt});
+    this.stories.unshift(newStory);
+
+    return new Story({ storyId, title, author, username, url, createdAt });
   }
 }
 
@@ -103,13 +111,13 @@ class User {
    */
 
   constructor({
-                username,
-                name,
-                createdAt,
-                favorites = [],
-                ownStories = []
-              },
-              token) {
+    username,
+    name,
+    createdAt,
+    favorites = [],
+    ownStories = []
+  },
+    token) {
     this.username = username;
     this.name = name;
     this.createdAt = createdAt;
