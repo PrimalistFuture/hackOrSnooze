@@ -237,7 +237,16 @@ class User {
         data: { token: currentUser.loginToken },
       });
 
-      return response;
+      const currentUserFavs = currentUser.favorites;
+
+
+      for (let i = 0; i < currentUserFavs.length; i++) {
+        console.log('inside the for loop')
+        if (currentUserFavs[i].Story.storyId === story.storyId) {
+          currentUserFavs.splice(i, 1);
+        }
+      }
+      console.log('after deleteFavorite currentUser favorites are now ', currentUser.favorites)
 
     } catch (err) {
       console.error("deleteFavorite failed,", err);

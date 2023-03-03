@@ -113,3 +113,18 @@ async function handleFavoriteClick(evt) {
 
 }
 
+async function handleUnfavoriteClick(evt) {
+  const unfavoritedId = $(evt.target).closest('li').attr('id');
+  $(evt.target).hide();
+
+  $(evt.target).closest("li").children("#favorite-icon").show();
+
+  for (const story of storyList.stories) {
+    if (story.storyId === unfavoritedId) {
+      await currentUser.deleteFavorite(story);
+    }
+  }
+}
+
+$body.on("click", "#unfavorite-icon", handleUnfavoriteClick);
+
