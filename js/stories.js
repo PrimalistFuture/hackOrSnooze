@@ -90,6 +90,8 @@ function putFavoritesOnPage() {
     console.log("Is this favorite an instance of Story?", favorite instanceof Story);
     const $favorite = generateStoryMarkup(favorite);
     $favoritesList.append($favorite);
+    $("#favorites-list").find("#unfavorite-icon").show()
+    $("#favorites-list").find("#favorite-icon").hide()
   }
 }
 
@@ -119,6 +121,8 @@ async function handleUnfavoriteClick(evt) {
 
   $(evt.target).closest("li").children("#favorite-icon").show();
 
+  $(evt.target).closest("li").remove();
+
   for (const story of storyList.stories) {
     if (story.storyId === unfavoritedId) {
       await currentUser.deleteFavorite(story);
@@ -128,3 +132,15 @@ async function handleUnfavoriteClick(evt) {
 
 $body.on("click", "#unfavorite-icon", handleUnfavoriteClick);
 
+
+
+function checkForFavorites() {
+  for (let story of storyList.stories) {
+    for (let favorite of currentUser.favorites) {
+      if (favorite.storyId === story.storyId) {
+        $(`#${story.storyId}`).children("#unfavorite-icon").show()
+        $(`#${story.storyId}`).children("#favorite-icon").hide()
+      }
+    }
+  }
+}

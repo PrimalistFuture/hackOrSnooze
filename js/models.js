@@ -238,11 +238,12 @@ class User {
       });
 
       const currentUserFavs = currentUser.favorites;
-
+      console.log(currentUserFavs)
 
       for (let i = 0; i < currentUserFavs.length; i++) {
         console.log('inside the for loop')
-        if (currentUserFavs[i].Story.storyId === story.storyId) {
+
+        if (currentUserFavs[i].storyId === story.storyId) {
           currentUserFavs.splice(i, 1);
         }
       }
