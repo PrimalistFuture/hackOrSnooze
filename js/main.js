@@ -20,20 +20,14 @@ const $navSubmit = $("#nav-submit");
 const $favoritesList = $("#favorites-list");
 const $navFavorite = $("#nav-favorite");
 
-
 /** To make it easier for individual components to show just themselves, this
  * is a useful function that hides pretty much everything on the page. After
  * calling this, individual components can re-show just what they want.
  */
 
 function hidePageComponents() {
-  const components = [
-    $allStoriesList,
-    $loginForm,
-    $signupForm,
-    $storyForm
-  ];
-  components.forEach(c => c.hide());
+  const components = [$allStoriesList, $loginForm, $signupForm, $storyForm];
+  components.forEach((c) => c.hide());
 }
 
 /** Overall function to kick off the app. */
@@ -52,8 +46,10 @@ async function start() {
 
 // Once the DOM is entirely loaded, begin the app
 
-console.warn("HEY STUDENT: This program sends many debug messages to" +
-  " the console. If you don't see the message 'start' below this, you're not" +
-  " seeing those helpful debug messages. In your browser console, click on" +
-  " menu 'Default Levels' and add Verbose");
+console.warn(
+  "HEY STUDENT: This program sends many debug messages to" +
+    " the console. If you don't see the message 'start' below this, you're not" +
+    " seeing those helpful debug messages. In your browser console, click on" +
+    " menu 'Default Levels' and add Verbose"
+);
 $(start);

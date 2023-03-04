@@ -18,7 +18,7 @@ async function getAndShowStoriesOnStart() {
  *
  * Returns the markup for the story.
  */
-
+//TODO: refactor to dynamically add star icon and class
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
@@ -26,9 +26,9 @@ function generateStoryMarkup(story) {
 
   return $(`
       <li id="${story.storyId}">
-      <i id="favorite-icon" class="bi bi-star"></i>
-      <i id="unfavorite-icon" class="bi bi-star-fill" style="display: none"></i>
-      <a href="${story.url}" target="a_blank" class="story-link">
+        <i id="favorite-icon" class="bi bi-star"></i>
+        <i id="unfavorite-icon" class="bi bi-star-fill" style="display: none"></i>
+        <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
         <small class="story-hostname">(${hostName})</small>
@@ -57,71 +57,78 @@ function putStoriesOnPage() {
 /** gathers info from submission form, calls addStory, adds info to storyList,
  * generatesStoryMarkup and finally prepends the story to the allStoriesList
  * element
-  */
-
+ */
 
 async function handleStorySubmission(evt) {
   evt.preventDefault();
 
-  const author = $('#author-input').val();
-  const title = $('#title-input').val();
-  const url = $('#url-input').val();
+  const author = $("#author-input").val();
+  const title = $("#title-input").val();
+  const url = $("#url-input").val();
 
-
-  const newStory = await storyList.addStory(currentUser,
-    { author, title, url });
-
-
+  const newStory = await storyList.addStory(currentUser, {
+    author,
+    title,
+    url,
+  });
 
   const newStoryMarkup = generateStoryMarkup(newStory);
 
   $allStoriesList.prepend(newStoryMarkup);
-
+  $storyForm.hide();
 }
 
-$('#story-form').on('submit', handleStorySubmission);
+$("#story-form").on("submit", handleStorySubmission);
 
+/** putFavoritesOnPage: displays current user's favorited stories with appropriate
+ * star icon
+ */
 function putFavoritesOnPage() {
-  const currentFavorites = currentUser.favorites;
+  const currentFavorites = currentUser.favorites; //uncessary copy
   $favoritesList.empty();
 
   for (let favorite of currentFavorites) {
-    console.log('favorite,', favorite);
-    console.log("Is this favorite an instance of Story?", favorite instanceof Story);
+    console.log("favorite,", favorite);
+    console.log(
+      "Is this favorite an instance of Story?",
+      favorite instanceof Story
+    );
     const $favorite = generateStoryMarkup(favorite);
     $favoritesList.append($favorite);
-    $("#favorites-list").find("#unfavorite-icon").show()
-    $("#favorites-list").find("#favorite-icon").hide()
+    $("#favorites-list").find("#unfavorite-icon").show();
+    $("#favorites-list").find("#favorite-icon").hide();
   }
 }
 
-$body.on("click", "#favorite-icon", handleFavoriteClick)
+$body.on("click", "#favorite-icon", handleFavoriteClick);
 
+/** when empty star is clicked, calls addFavorite and swaps icons*/
 async function handleFavoriteClick(evt) {
-  console.log("handleFavoriteClick ran")
-  console.log("storyList,", storyList)
-  const favoritedId = $(evt.target).closest('li').attr('id');
+  const favoritedId = $(evt.target).closest("li").attr("id");
   $(evt.target).hide();
 
   $(evt.target).closest("li").children("#unfavorite-icon").show();
-
-
 
   for (const story of storyList.stories) {
     if (story.storyId === favoritedId) {
       await currentUser.addFavorite(story);
     }
   }
-
 }
-
+/** when filled in star is clicked, if on favorites list, removes story form list
+ * if on main story list, toggles star
+ */
 async function handleUnfavoriteClick(evt) {
-  const unfavoritedId = $(evt.target).closest('li').attr('id');
+  const unfavoritedId = $(evt.target).closest("li").attr("id");
   $(evt.target).hide();
 
   $(evt.target).closest("li").children("#favorite-icon").show();
 
-  $(evt.target).closest("li").remove();
+  // if clicked on favorites list, remove from list:
+
+  // if ($(evt.target).closest("ol").attr("id") === "favorites-list") {
+  //   $(evt.target).closest("li").remove();
+  // }
 
   for (const story of storyList.stories) {
     if (story.storyId === unfavoritedId) {
@@ -132,14 +139,13 @@ async function handleUnfavoriteClick(evt) {
 
 $body.on("click", "#unfavorite-icon", handleUnfavoriteClick);
 
-
-
+/** checks if any of the stories on the page have been favorited */
 function checkForFavorites() {
   for (let story of storyList.stories) {
     for (let favorite of currentUser.favorites) {
       if (favorite.storyId === story.storyId) {
-        $(`#${story.storyId}`).children("#unfavorite-icon").show()
-        $(`#${story.storyId}`).children("#favorite-icon").hide()
+        $(`#${story.storyId}`).children("#unfavorite-icon").show();
+        $(`#${story.storyId}`).children("#favorite-icon").hide();
       }
     }
   }

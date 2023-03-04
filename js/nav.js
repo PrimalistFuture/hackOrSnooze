@@ -39,7 +39,6 @@ function updateNavOnLogin() {
   $navUserProfile.text(`${currentUser.username}`).show();
 }
 
-
 /** On click, opens the submission form */
 function navSubmitClick(evt) {
   console.log("we clicked submit");
@@ -49,13 +48,13 @@ function navSubmitClick(evt) {
 
 $navSubmit.on("click", navSubmitClick);
 
-
+/** shows favorited stories and hides main story list */
 function navFavoritesClick(evt) {
+  evt.preventDefault();
   console.log("nav favorites was clicked");
   hidePageComponents();
   putFavoritesOnPage();
   $favoritesList.show();
-  // checkForFavorites();
 }
 
 $navFavorite.on("click", navFavoritesClick);

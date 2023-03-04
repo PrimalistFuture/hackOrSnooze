@@ -212,10 +212,14 @@ class User {
     }
   }
 
+  /** addFavorite: takes a story instance, makes a POST request to API and adds
+   * favorited story to user's favorites
+   * If API call returns an error, logs error to console
+   */
   async addFavorite(story) {
-    console.log('addFavorite ran');
+    console.log("addFavorite ran");
     try {
-      const response = await axios({
+      await axios({
         url: `${BASE_URL}/users/${currentUser.username}/favorites/${story.storyId}`,
         method: "POST",
         data: { token: currentUser.loginToken },
@@ -224,34 +228,37 @@ class User {
       currentUser.favorites.push(story);
     } catch (err) {
       console.error("favorite failed", err);
-      return null;
     }
   }
 
-
+  /** deleteFavorite: accepts a story instance, makes a DELETE request to API
+   * and updates current user's favorites to reflect change
+   * If API returns an error, logs error
+   */
   async deleteFavorite(story) {
     try {
-      const response = await axios({
+      await axios({
         url: `${BASE_URL}/users/${currentUser.username}/favorites/${story.storyId}`,
         method: "DELETE",
         data: { token: currentUser.loginToken },
       });
 
       const currentUserFavs = currentUser.favorites;
-      console.log(currentUserFavs)
-
+      console.log(currentUserFavs);
+      //refactor with filter
       for (let i = 0; i < currentUserFavs.length; i++) {
-        console.log('inside the for loop')
+        console.log("inside the for loop");
 
         if (currentUserFavs[i].storyId === story.storyId) {
           currentUserFavs.splice(i, 1);
         }
       }
-      console.log('after deleteFavorite currentUser favorites are now ', currentUser.favorites)
-
+      console.log(
+        "after deleteFavorite currentUser favorites are now ",
+        currentUser.favorites
+      );
     } catch (err) {
       console.error("deleteFavorite failed,", err);
-      return null;
     }
   }
 }
